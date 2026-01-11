@@ -1,7 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import asyncio
-from app.core.auditor import run_stealth_audit
+try:
+    from app.core.auditor import run_stealth_audit
+except ImportError:
+    try:
+        from core.auditor import run_stealth_audit
+    except ImportError:
+        from auditor import run_stealth_audit
 
 app = FastAPI(title="Stealth Engine Remote Auditor")
 
