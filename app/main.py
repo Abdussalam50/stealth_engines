@@ -6,9 +6,9 @@ import secrets
 from datetime import datetime, timedelta
 
 # --- 1. WINDOWS ASYNCIO FIX (Wajib Paling Atas) ---
-if sys.platform == 'win32':
+# if sys.platform == 'win32':
     # ProactorEventLoop diperlukan oleh Playwright untuk subprocess di Windows
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+    # asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 from fastapi import FastAPI, Request, Form, Response, Query, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
