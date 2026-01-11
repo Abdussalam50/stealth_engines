@@ -1,9 +1,7 @@
 from sqlalchemy import Column,Integer,String,Boolean,DateTime,JSON,Text
-from sqlalchemy.ext.declarative import declarative_base
+from .config import Base
 from datetime import datetime
 import uuid
-
-Base=declarative_base()
 
 class Client(Base):
     __tablename__="clients"
