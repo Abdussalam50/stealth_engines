@@ -1,44 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Audit Logs - Stealth Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 p-10">
     <div class="max-w-6xl mx-auto">
 
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-slate-800">📋 Audit History & Leads</h1>
             <div class="flex justify-end mb-4">
-                <a href="/admin/clear-all-logs" 
-                onclick="return confirm('PERINGATAN: Semua data audit akan dihapus. Lanjutkan?')"
-                class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-bold border border-red-200 hover:bg-red-600 hover:text-white transition">
-                🗑️ Clear All Logs
+                <a href="/admin/clear-all-logs"
+                    onclick="return confirm('PERINGATAN: Semua data audit akan dihapus. Lanjutkan?')"
+                    class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-bold border border-red-200 hover:bg-red-600 hover:text-white transition">
+                    🗑️ Clear All Logs
                 </a>
             </div>
-            <a href="/admin" class="bg-slate-600 text-white px-4 py-2 rounded hover:bg-slate-700">
-                ← Kembali ke Dashboard
-            </a>
+            <div class="flex gap-2">
+                <a href="/admin" class="bg-slate-600 text-white px-4 py-2 rounded hover:bg-slate-700">
+                    ← Kembali ke Dashboard
+                </a>
+                <a href="/logout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+                    Logout
+                </a>
+            </div>
         </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-violet-500">
-        <p class="text-slate-500 text-sm">Total Scans</p>
-        <p class="text-2xl font-black">{{ audit_logs|length }}</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-        <p class="text-slate-500 text-sm">Protected Sites</p>
-        <p class="text-2xl font-black text-green-600">
-            {{ audit_logs|selectattr('status_result', 'equalto', 'Protected')|list|length }}
-        </p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
-        <p class="text-slate-500 text-sm">Vulnerable Leads</p>
-        <p class="text-2xl font-black text-red-600">
-            {{ audit_logs|selectattr('status_result', 'equalto', 'Vulnerable')|list|length }}
-        </p>
-    </div>
-</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-violet-500">
+                <p class="text-slate-500 text-sm">Total Scans</p>
+                <p class="text-2xl font-black">{{ audit_logs|length }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                <p class="text-slate-500 text-sm">Protected Sites</p>
+                <p class="text-2xl font-black text-green-600">
+                    {{ audit_logs|selectattr('status_result', 'equalto', 'Protected')|list|length }}
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
+                <p class="text-slate-500 text-sm">Vulnerable Leads</p>
+                <p class="text-2xl font-black text-red-600">
+                    {{ audit_logs|selectattr('status_result', 'equalto', 'Vulnerable')|list|length }}
+                </p>
+            </div>
+        </div>
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -59,31 +66,35 @@
                         </td>
                         <td class="p-4">
                             {% if log.status_result == 'Protected' %}
-                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">🛡️ PROTECTED</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">🛡️
+                                PROTECTED</span>
                             {% else %}
-                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">⚠️ VULNERABLE</span>
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">⚠️
+                                VULNERABLE</span>
                             {% endif %}
                         </td>
                         <td class="p-4">
-    <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200">
-        {{ log.details }}
-    </span>
-</td>
+                            <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200">
+                                {{ log.details }}
+                            </span>
+                        </td>
                         <td class="p-4 text-sm">
-                            <a href="/admin/delete-log/{{ log.id }}" 
-       onclick="return confirm('Hapus log audit ini selamanya?')"
-       class="text-red-500 hover:text-red-700 font-medium flex items-center gap-1">
-       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-       </svg>
-       Delete
-    </a>
+                            <a href="/admin/delete-log/{{ log.id }}"
+                                onclick="return confirm('Hapus log audit ini selamanya?')"
+                                class="text-red-500 hover:text-red-700 font-medium flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Delete
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            
+
             {% if not audit_logs %}
             <div class="p-10 text-center text-gray-500">
                 Belum ada aktivitas audit terdeteksi.
@@ -92,4 +103,5 @@
         </div>
     </div>
 </body>
+
 </html>
