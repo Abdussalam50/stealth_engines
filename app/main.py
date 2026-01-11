@@ -20,10 +20,9 @@ import os
 
 # Import internal aplikasi
 from .database.models import AuditLog, Client, Admin, Session as DBSession
-from .database.config import get_db
+from .database.config import get_db,engine,Base
 from .core.engine import generate_stealth
 from .core.auditor import run_stealth_audit
-from .hasher import verify_pass
 from .hasher import verify_pass
 from .services.payment import router as payment_router
 from .routers import pseo
@@ -50,7 +49,7 @@ async def startup_event():
     print(f"INFO: Application started with loop: {type(loop).__name__}")
 
 # --- 4. CORE ENDPOINTS (AUDITOR & ENGINE) ---
-
+Base.metadata.create_all(bind=engine)
 @app.get("/", response_class=FileResponse)
 async def serve_index():
     # Serve index.html from root with security headers

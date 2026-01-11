@@ -7,13 +7,16 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:
-    # Perbaikan kecil untuk database postgres di Railway (SQLAlchemy butuh postgresql:// bukan postgres://)
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
-    engine = create_engine(DATABASE_URL)
+    # Tambahkan pool_pre_ping=True
+    engine = create_engine(
+        DATABASE_URL, 
+        pool_pre_ping=True, 
+        pool_recycle=3600
+    )
 else:
-    # Default untuk lokal (laptop)
     engine = create_engine("sqlite:///./stealth.db", connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
