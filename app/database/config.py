@@ -14,7 +14,8 @@ if DATABASE_URL:
     engine = create_engine(
         DATABASE_URL, 
         pool_pre_ping=True, 
-        pool_recycle=3600
+        pool_recycle=3600,
+        connect_args={"sslmode": "require"} if "postgresql" in DATABASE_URL else {}
     )
 else:
     engine = create_engine("sqlite:///./stealth.db", connect_args={"check_same_thread": False})
