@@ -17,12 +17,12 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 import os
+import httpx
 
 # Import internal aplikasi
 from .database.models import AuditLog, Client, Admin, Session as DBSession
 from .database.config import get_db,engine,Base
 from .core.engine import generate_stealth
-from .core.auditor import run_stealth_audit
 from .hasher import verify_pass
 from .services.payment import router as payment_router
 from .routers import pseo
@@ -73,14 +73,31 @@ async def secure_audit(data: AuditRequest, db: Session = Depends(get_db)):
         # Sanitize target URL to prevent log injection or XSS in admin panel
         sanitized_url = sanitize_text(target_url)
 
-        print(f"DEBUG: Starting Playwright audit for {sanitized_url}")
-        result = await run_stealth_audit(target_url)
+        # check Auditor Service (Remote HF or Local)
+        service_url = os.getenv("AUDITOR_SERVICE_URL")
+        if service_url:
+            print(f"DEBUG: Redirecting audit to remote service: {service_url}")
+            async with httpx.AsyncClient() as client:
+                try:
+                    hf_res = await client.post(
+                        f"{service_url.rstrip('/')}/audit",
+                        json={"url": target_url},
+                        timeout=60.0
+                    )
+                    result = hf_res.json()
+                except Exception as hf_e:
+                    print(f"DEBUG: Remote Auditor Error: {str(hf_e)}")
+                    result = {"is_protected": False, "score": 0, "details": "Remote Service Offline", "tech_stack": {}}
+        else:
+            print(f"DEBUG: Starting local Playwright audit for {sanitized_url}")
+            from .core.auditor import run_stealth_audit
+            result = await run_stealth_audit(target_url)
         
         # Simpan Log
         new_log = AuditLog(
             id=str(uuid.uuid4()),
             target_url=sanitized_url,
-            status_result="Protected" if result["is_protected"] else "Vulnerable",
+            status_result="Protected" if result.get("is_protected") else "Vulnerable",
             details=sanitize_text(result.get("details", "Audit Success"))
         )
         db.add(new_log)

@@ -17,15 +17,21 @@ async def run_stealth_audit(url: str):
     browser = None
     try:
         async with async_playwright() as p:
-            # --- 2. LAUNCH BROWSER DENGAN ANTI-BOT ---
-            browser = await p.chromium.launch(
-                headless=True,
-                args=[
-                    "--disable-web-security",
-                    "--disable-features=IsolateOrigins,site-per-process",
-                    "--allow-running-insecure-content"
-                ]
-            )
+            # --- 2. CONNECT TO BROWSER (LOCAL OR REMOTE) ---
+            browserless_url = os.getenv("BROWSERLESS_URL")
+            if browserless_url:
+                print(f"DEBUG: Connecting to remote browser at {browserless_url}")
+                browser = await p.chromium.connect_over_cdp(browserless_url)
+            else:
+                print("DEBUG: Launching local browser...")
+                browser = await p.chromium.launch(
+                    headless=True,
+                    args=[
+                        "--disable-web-security",
+                        "--disable-features=IsolateOrigins,site-per-process",
+                        "--allow-running-insecure-content"
+                    ]
+                )
             
             context = await browser.new_context(
                 ignore_https_errors=True,
