@@ -1,1 +1,1 @@
-web: python -m app.scripts.create_admin && uvicorn server:app --host 0.0.0.0 --port $PORT
+web: python -m app.create_admin && uvicorn server:app --host 0.0.0.0 --port $PORT
