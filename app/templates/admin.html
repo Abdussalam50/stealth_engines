@@ -29,9 +29,9 @@
                 <input type="text" name="name" placeholder="Client Name" class="border p-2 rounded" required>
                 <input type="text" name="domain" placeholder="Domain (e.g. example.com)" class="border p-2 rounded"
                     required>
-                <select name="mode" class="border p-2 rounded">
-                    <option value="aggressive">Aggressive Mode</option>
-                    <option value="smart">Smart Mode</option>
+                <select name="plan" class="border p-2 rounded">
+                    <option value="free">Free Plan</option>
+                    <option value="tactical">Tactical Plan</option>
                 </select>
                 <button type="submit"
                     class="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">
@@ -69,7 +69,7 @@
                         </td>
                         <td class="p-4">
                             <span
-                                class="px-2 py-1 rounded-full text-xs font-semibold {{ 'bg-green-100 text-green-700' if client.status == 'active' else 'bg-red-100 text-red-700' }}">
+                                class="px-2 py-1 rounded-full text-xs font-semibold {{ 'bg-purple-100 text-purple-700' if client.plan == 'tactical' else 'bg-blue-100 text-blue-700' }}">
                                 {{ client.plan }}
                             </span>
                         </td>

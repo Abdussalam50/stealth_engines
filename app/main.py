@@ -242,7 +242,7 @@ async def clear_all_logs(db: Session = Depends(get_db), admin: str = Depends(get
 async def add_client(
     name: str = Form(...),
     domain: str = Form(...),
-    mode: str = Form(...),
+    plan: str = Form(...),
     db: Session = Depends(get_db),
     admin: str = Depends(get_current_admin)
 ):
@@ -261,7 +261,7 @@ async def add_client(
         domain_name=s_domain,
         api_key=str(uuid.uuid4()),
         status="active",
-        plan=mode # Use 'mode' as temporary mapping to plan or handle specifically
+        plan=plan
     )
     db.add(new_client)
     db.commit()
