@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSEO Manager | Stealth Engine</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- DOMPurify for Security -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-slate-800">📋 PSEO Manager Content</h1>
+            <div class="flex gap-4 mb-4">
+                <button onclick="openModal('addModal')"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition">
+                    + Add New
+                </button>
+                <button onclick="document.getElementById('jsonFile').click()"
+                    class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-700 transition">
+                    📂 Upload JSON
+                </button>
+                <input type="file" id="jsonFile" accept=".json" class="hidden" onchange="handleJsonUpload(this)">
+
+                <a href="/admin/pseo/clear-all" onclick="return confirmAndClear(event)"
+                    class="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-bold border border-red-200 hover:bg-red-600 hover:text-white transition">
+                    🗑️ Clear All
+                </a>
+            </div>
+            <a href="/admin" class="bg-slate-600 text-white px-4 py-2 rounded hover:bg-slate-700">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-lg shadow lg overflow-h">
+            <table class="w-full border-collapse text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-3">Slug</th>
+                        <th class="p-3">Sektor</th>
+                        <th class="p-3">Title Tag</th>
+                        <th class="p-3">Content</th>
+                        <th class="p-3 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="pseoTableBody">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold mb-4" id="modalTitle">Add PSEO Content</h2>
+            <form id="pseoForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="editId">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Slug *</label>
+                        <input type="text" id="slug" required class="w-full border p-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Sektor *</label>
+                        <input type="text" id="sektor" required class="w-full border p-2 rounded">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-1">Title Tag</label>
+                    <input type="text" id="title_tag" class="w-full border p-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-1">Meta Description</label>
+                    <textarea id="meta_description" class="w-full border p-2 rounded" rows="2"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-1">Body Content</label>
+                    <textarea id="body_content" class="w-full border p-2 rounded" rows="5"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Image URL</label>
+                        <input type="text" id="image_url" class="w-full border p-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Image Alt</label>
+                        <input type="text" id="image_alt" class="w-full border p-2 rounded">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadPseoData);
+
+        let allItems = []; // Store all items globally
+
+        async function loadPseoData() {
+            try {
+                const res = await fetch('/admin/pseo/list');
+                const data = await res.json();
+                allItems = data; // Store globally
+                const tbody = document.getElementById('pseoTableBody');
+                tbody.innerHTML = '';
+
+                data.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b hover:bg-slate-50";
+
+                    // Sanitize title and content snippet
+                    const s_title = DOMPurify.sanitize(item.title_tag || '-');
+                    const s_body = DOMPurify.sanitize((item.body_content || '').slice(0, 50) || '-');
+
+                    tr.innerHTML = `
+                        <td class="p-3 font-mono text-xs text-blue-600">${DOMPurify.sanitize(item.slug)}</td>
+                        <td class="p-3">${DOMPurify.sanitize(item.sektor)}</td>
+                        <td class="p-3 text-sm text-gray-600 truncate max-w-xs">${s_title}</td>
+                        <td class="p-3 text-sm text-gray-600 truncate max-w-xs">${s_body}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="openEditModal('${item.id}')" class="text-blue-600 hover:text-blue-800 mr-2">✏️</button>
+                            <button onclick="deletePseo('${item.id}')" class="text-red-600 hover:text-red-800">🗑️</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Failed to load data', err);
+            }
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            if (id === 'addModal') {
+                document.getElementById('pseoForm').reset();
+                document.getElementById('editId').value = '';
+                document.getElementById('modalTitle').innerText = 'Add PSEO Content';
+                document.getElementById('slug').disabled = false;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
+
+        function openEditModal(itemId) {
+            const item = allItems.find(i => i.id === itemId);
+            if (!item) {
+                alert('Item not found');
+                return;
+            }
+
+            openModal('addModal');
+            document.getElementById('modalTitle').innerText = 'Edit PSEO Content';
+            document.getElementById('editId').value = item.id;
+            document.getElementById('slug').value = item.slug;
+            document.getElementById('slug').disabled = true; // Slug usually shouldn't change or needs care
+            document.getElementById('sektor').value = item.sektor;
+            document.getElementById('title_tag').value = item.title_tag || '';
+            document.getElementById('meta_description').value = item.meta_description || '';
+            document.getElementById('body_content').value = item.body_content || '';
+            document.getElementById('image_url').value = item.image_url || '';
+            document.getElementById('image_alt').value = item.image_alt || '';
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('editId').value;
+            const url = id ? `/admin/pseo/${id}` : '/admin/pseo/create';
+            const method = id ? 'PUT' : 'POST';
+
+            const payload = {
+                slug: document.getElementById('slug').value,
+                sektor: document.getElementById('sektor').value,
+                title_tag: document.getElementById('title_tag').value,
+                meta_description: document.getElementById('meta_description').value,
+                body_content: document.getElementById('body_content').value,
+                image_url: document.getElementById('image_url').value,
+                image_alt: document.getElementById('image_alt').value,
+            };
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    closeModal();
+                    loadPseoData();
+                } else {
+                    const err = await res.json();
+                    alert('Error: ' + err.detail);
+                }
+            } catch (error) {
+                alert('Failed to save');
+            }
+        }
+
+        async function deletePseo(id) {
+            if (!confirm('Are you sure?')) return;
+            try {
+                await fetch(`/admin/pseo/${id}`, { method: 'DELETE' });
+                loadPseoData();
+            } catch (e) {
+                alert('Failed to delete');
+            }
+        }
+
+        async function handleJsonUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const json = JSON.parse(e.target.result);
+                    const res = await fetch('/admin/pseo/upload', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(json)
+                    });
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.errors.length) {
+                        console.warn(result.errors);
+                        alert('Some items skipped. Check console.');
+                    }
+                    loadPseoData();
+                } catch (err) {
+                    alert('Invalid JSON file or Upload failed');
+                }
+                input.value = ''; // Reset
+            };
+            reader.readAsText(file);
+        }
+
+        async function confirmAndClear(e) {
+            e.preventDefault();
+            if (!confirm('WARNING: This will delete ALL PSEO content. Continue?')) return;
+
+            try {
+                await fetch('/admin/pseo/clear-all', { method: 'DELETE' });
+                loadPseoData();
+            } catch (err) {
+                alert('Failed to clear');
+            }
+        }
+    </script>
+</body>
+
+</html>

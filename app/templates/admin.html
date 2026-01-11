@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stealth Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-slate-800 p-4 text-white shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">🛡️ Stealth Engine Admin</h1>
+            <span class="text-sm opacity-75 mx-3">v1.0 Beta</span>
+            <div class="flex gap-4 mb-6" style='margin-left:auto'>
+                <a href="/admin" class="font-bold text-blue-600 border-b-2 border-blue-600">Main Dashboard</a>
+                <a href="/admin/logs" class="text-gray-500 hover:text-blue-600">Audit Logs</a>
+                <a href="/admin/pseo-manager" class="text-gray-500 hover:text-blue-600">PSEO Manager</a>
+                <a href="/admin/domains" class="text-gray-500 hover:text-blue-600">Trusted Domains</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-10 p-5">
+        <div class="bg-white p-6 rounded-lg shadow-md mb-10">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Register New Client</h2>
+            <form action="/admin/add-client" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" name="name" placeholder="Client Name" class="border p-2 rounded" required>
+                <input type="text" name="domain" placeholder="Domain (e.g. example.com)" class="border p-2 rounded"
+                    required>
+                <select name="mode" class="border p-2 rounded">
+                    <option value="aggressive">Aggressive Mode</option>
+                    <option value="smart">Smart Mode</option>
+                </select>
+                <button type="submit"
+                    class="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">
+                    + Add Client
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="p-4 font-semibold text-gray-600">ID</th>
+                        <th class="p-4 font-semibold text-gray-600">Client Name</th>
+                        <th class="p-4 font-semibold text-gray-600">Domain</th>
+                        <th class="p-4 font-semibold text-gray-600">API Key</th>
+                        <th class="p-4 font-semibold text-gray-600">Status</th>
+                        <th class="p-4 font-semibold text-gray-600">Plan</th>
+                        <th class="p-4 font-semibold text-gray-600">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 text-sm text-gray-500">{{ client.id }}</td>
+                        <td class="p-4 font-medium">{{ client.client_name }}</td>
+                        <td class="p-4 text-blue-600">{{ client.domain_name }}</td>
+                        <td class="p-4"><code class="bg-gray-200 px-2 py-1 rounded text-xs">{{ client.api_key }}</code>
+                        </td>
+                        <td class="p-4">
+                            <span
+                                class="px-2 py-1 rounded-full text-xs font-semibold {{ 'bg-green-100 text-green-700' if client.status == 'active' else 'bg-red-100 text-red-700' }}">
+                                {{ client.status }}
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <span
+                                class="px-2 py-1 rounded-full text-xs font-semibold {{ 'bg-green-100 text-green-700' if client.status == 'active' else 'bg-red-100 text-red-700' }}">
+                                {{ client.plan }}
+                            </span>
+                        </td>
+                        <td class="p-4 text-sm font-bold">
+                            {% if client.status == 'active' %}
+                            <a href="/admin/toggle-status/{{ client.id }}"
+                                onclick="return confirm('Cabut akses klien ini?')"
+                                class="text-red-500 hover:text-red-700 bg-red-50 border border-red-200 px-3 py-1 rounded transition">
+                                Revoke
+                            </a>
+                            {% else %}
+                            <a href="/admin/toggle-status/{{ client.id }}"
+                                class="text-green-600 hover:text-green-800 bg-green-50 border border-green-200 px-3 py-1 rounded transition">
+                                Activate
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

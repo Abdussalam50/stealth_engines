@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Trusted Domains | Stealth Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-slate-50 font-sans text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-indigo-600">Stealth Engine Admin</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-slate-500">Logged in as: <strong class="text-slate-700">{{ admin
+                            }}</strong></span>
+                    <a href="/admin" class="text-sm text-slate-600 hover:text-indigo-600">Dashboard</a>
+                    <a href="/logout" class="text-sm text-red-600 hover:text-red-800">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="mb-8 flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900">Trusted Domains</h1>
+                <p class="text-slate-500 mt-2">Manage authorized origins for Dynamic CORS validation.</p>
+            </div>
+            <a href="/admin" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Add Domain Form -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+            <h2 class="text-lg font-semibold mb-4">Add New Trusted Domain</h2>
+            <form action="/admin/domains/add" method="POST" class="flex gap-4">
+                <input type="text" name="domain" required placeholder="https://your-frontend-site.com"
+                    class="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                <button type="submit"
+                    class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
+                    Add Domain
+                </button>
+            </form>
+            <p class="text-xs text-slate-400 mt-2">Include protocol (http/https). Port is optional for local
+                development.</p>
+        </div>
+
+        <!-- Domains Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 border-b border-slate-200">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Domain</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for domain in domains %}
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <code class="text-sm font-mono text-indigo-600">{{ domain.domain }}</code>
+                        </td>
+                        <td class="px-6 py-4">
+                            {% if domain.is_active %}
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                <span class="w-1 h-1 mr-1.5 bg-emerald-400 rounded-full"></span> Active
+                            </span>
+                            {% else %}
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-400">
+                                <span class="w-1 h-1 mr-1.5 bg-slate-300 rounded-full"></span> Inactive
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-right space-x-3">
+                            <a href="/admin/domains/toggle/{{ domain.id }}"
+                                class="text-sm font-medium {% if domain.is_active %}text-slate-400 hover:text-slate-600{% else %}text-emerald-600 hover:text-emerald-800{% endif %}"
+                                title="Toggle Active">
+                                <i
+                                    class="fas {% if domain.is_active %}fa-toggle-on{% else %}fa-toggle-off{% endif %} fa-lg"></i>
+                            </a>
+                            <a href="/admin/domains/delete/{{ domain.id }}"
+                                class="text-red-500 hover:text-red-700 transition-colors"
+                                onclick="return confirm('Are you sure you want to remove this domain? CORS requests from this origin will be blocked.')"
+                                title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="px-6 py-12 text-center text-slate-400 italic">
+                            No trusted domains configured yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-8 p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-4">
+            <i class="fas fa-shield-alt text-amber-500 mt-1"></i>
+            <div class="text-sm text-amber-800">
+                <p class="font-bold">Security Note:</p>
+                <p class="mt-1">Only domains listed here can communicate with your API from a browser. This prevents
+                    unauthorized sites from accessing your data on behalf of your users.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stealth Engine Test Page</title>
+    
+    <script src="http://127.0.0.1:8000/loader.js?key=912593d4-f134"></script>
+    
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 50px; background-color: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .secret-data { color: #d9534f; font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Stealth Scraper Protection Test</h1>
+    <hr>
+    <p>Di bawah ini adalah teks yang akan diproteksi oleh Stealth Engine:</p>
+    
+    <p class="secret-data">Harga Produk: Rp 12.500.000</p>
+    <p>Nomor Rekening: 123-456-789-0 (Bank Stealth)</p>
+    
+    <p>Teks ini terlihat normal bagi manusia, tetapi jika Anda mencoba meng-copy teks ini 
+       atau jika Bot Scraper mencoba membacanya, mereka akan mendapatkan data yang rusak.</p>
+</div>
+
+<script>
+    // Logika tambahan untuk mengecek apakah script berhasil dimuat
+    window.addEventListener('load', () => {
+        if (window.activateStealth) {
+            console.log("✅ Stealth Engine Terdeteksi & Aktif!");
+        } else {
+            console.error("❌ Stealth Engine Gagal Dimuat. Cek Server atau API Key.");
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Stealth | Data Air Dominance</title>
+    <style>
+        body {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .lang-text {
+            word-break: keep-all;
+            overflow-wrap: normal;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-white font-sans antialiased">
+    <nav class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="text-violet-500">
+                <path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" fill="currentColor" />
+                <path d="M12 5L8 15H16L12 5Z" fill="#1e1b4b" />
+            </svg>
+            <span class="text-2xl font-black tracking-tighter uppercase">Stealth</span>
+        </div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="#mission" class="lang-text text-slate-400 hover:text-violet-400 transition" data-en="Mission"
+                data-id="Misi">Mission</a>
+            <a href="#arsenal" class="lang-text text-slate-400 hover:text-violet-400 transition" data-en="Arsenal"
+                data-id="Persenjataan">Arsenal</a>
+            <a href="#intelligence" class="lang-text text-slate-400 hover:text-violet-400 transition"
+                data-en="Intelligence" data-id="Intelijen">Intelligence</a>
+            <button onclick="langToggle()"
+                class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded text-xs font-bold transition cursor-pointer"
+                id="langBtn">ID</button>
+        </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
+        <div>
+            <div class="lang-text inline-block px-3 py-1 border border-violet-500/30 bg-violet-500/10 text-violet-400 text-xs font-bold tracking-widest uppercase rounded mb-4"
+                data-en="Anti-Intelligence Countermeasures" data-id="Penanggulangan Anti-Intelijen">
+                Anti-Intelligence Countermeasures
+            </div>
+            <h1 class="text-6xl font-black leading-none mb-6">
+                <span class="lang-text" data-en="DOMINATE THE" data-id="DOMINASI">DOMINATE THE</span>
+                <span class="text-violet-500 lang-text" data-en="DIGITAL SKY." data-id="LANGIT DIGITAL.">DIGITAL
+                    SKY.</span>
+            </h1>
+            <p class="lang-text text-slate-400 text-xl mb-10 max-w-lg"
+                data-en="Deploy advanced obfuscation layers. Make your data invisible to AI scrapers and industrial crawlers."
+                data-id="Terapkan lapisan pengacak tingkat lanjut. Buat data Anda tak terlihat oleh AI scraper dan crawler industri.">
+                Deploy advanced obfuscation layers. Make your data invisible to AI scrapers and industrial crawlers.
+            </p>
+            <div class="flex gap-4">
+                <a href="#arsenal"
+                    class="lang-text bg-violet-600 hover:bg-violet-500 px-8 py-4 rounded font-bold transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                    data-en="DEPLOY NOW" data-id="PASANG SEKARANG">
+                    DEPLOY NOW
+                </a>
+                <a href="#intelligence"
+                    class="lang-text border border-slate-700 hover:bg-slate-800 px-8 py-4 rounded font-bold transition"
+                    data-en="VIEW SPECS" data-id="LIHAT SPEK">
+                    VIEW SPECS
+                </a>
+            </div>
+        </div>
+        <div class="relative flex justify-center">
+            <div class="absolute inset-0 bg-violet-600/20 blur-[120px] rounded-full"></div>
+            <svg width="400" height="400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="relative text-white drop-shadow-2xl">
+                <path d="M12 1L3 21L4 22L12 19L20 22L21 21L12 1Z" fill="currentColor" fill-opacity="0.05"
+                    stroke="currentColor" stroke-width="0.5" />
+                <path d="M12 3L5 19L12 16L19 19L12 3Z" fill="currentColor" />
+            </svg>
+        </div>
+    </header>
+
+    <section id="mission" class="max-w-7xl mx-auto px-6 py-24 border-t border-slate-900">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative flex justify-center order-2 md:order-1">
+                <div class="absolute inset-0 bg-violet-600/10 blur-[80px] rounded-full"></div>
+                <div class="relative border border-slate-800 rounded-full p-12 animate-[spin_10s_linear_infinite]">
+                    <div class="border border-violet-500/30 rounded-full p-12">
+                        <div class="border border-violet-500/50 rounded-full p-12"></div>
+                    </div>
+                    <div
+                        class="absolute top-0 left-1/2 w-1 h-1/2 bg-gradient-to-t from-violet-500 to-transparent origin-bottom">
+                    </div>
+                </div>
+                <div class="absolute flex flex-col items-center justify-center">
+                    <span class="text-4xl font-black text-violet-500">99%</span>
+                    <span class="lang-text text-[10px] text-slate-500 uppercase tracking-widest"
+                        data-en="Detection Rate" data-id="Tingkat Deteksi">Detection Rate</span>
+                </div>
+            </div>
+
+            <div class="order-1 md:order-2">
+                <h2 class="lang-text text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 italic"
+                    data-en="THE MISSION" data-id="MISI KAMI">THE MISSION</h2>
+                <h3 class="lang-text text-4xl font-black mb-6 leading-tight"
+                    data-en="DATA SOVEREIGNTY IN AN AI-DRIVEN WARFARE."
+                    data-id="KEDAULATAN DATA DALAM PERANG BERBASIS AI.">
+                    DATA SOVEREIGNTY IN AN <br> <span class="text-violet-500 uppercase">AI-Driven Warfare.</span>
+                </h3>
+                <div class="space-y-6 text-slate-400 text-lg">
+                    <p class="lang-text"
+                        data-en="In 2026, AI Scrapers no longer just take data—they steal your Intellectual Property to train competitor models."
+                        data-id="Tahun 2026, AI Scraper tidak lagi sekadar mengambil data—mereka mencuri Intelektual Properti Anda untuk melatih model kompetitor.">
+                        In 2026, AI Scrapers no longer just take data—they steal your Intellectual Property to train
+                        competitor models.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="text-violet-500">▶</span>
+                            <span class="lang-text" data-en="Destroy the economic value of mass data theft."
+                                data-id="Menghancurkan nilai ekonomi dari pencurian data massal.">Destroy the economic
+                                value of mass data theft.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-violet-500">▶</span>
+                            <span class="lang-text" data-en="Instant protection without breaking human UX."
+                                data-id="Proteksi instan tanpa merusak pengalaman pengguna manusia.">Instant protection
+                                without breaking human UX.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-slate-900/50" id="arsenal">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-12">
+            <h2 class="lang-text text-4xl font-black" data-en="CHOOSE YOUR ARSENAL" data-id="PILIH PERSENJATAAN ANDA">
+                CHOOSE YOUR ARSENAL</h2>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div
+                class="bg-slate-950 border border-slate-800 p-8 rounded-lg hover:border-violet-500/50 transition text-center">
+                <h3 class="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4 italic">Recon</h3>
+                <div class="text-4xl font-black mb-6">FREE<span class="text-sm text-slate-600">/24H</span></div>
+                <ul class="text-slate-400 text-left space-y-3 mb-10">
+                    <li class="lang-text" data-en="• Basic Obfuscation" data-id="• Pengacakan Dasar">• Basic Obfuscation
+                    </li>
+                    <li class="lang-text" data-en="• Single Domain" data-id="• Satu Domain">• Single Domain</li>
+                    <li class="lang-text" data-en="• Community Support" data-id="• Dukungan Komunitas">• Community
+                        Support</li>
+                </ul>
+                <button
+                    class="lang-text w-full border border-slate-700 py-3 font-bold hover:bg-white hover:text-black transition"
+                    data-en="START MISSION" data-id="MULAI MISI" onclick="openPaymentModal('free')">START
+                    MISSION</button>
+            </div>
+            <div class="bg-slate-950 border-2 border-violet-600 p-8 rounded-lg relative text-center">
+                <div class="lang-text absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-tighter"
+                    data-en="Recommended" data-id="Direkomendasikan">Recommended</div>
+                <h3 class="text-violet-500 font-bold uppercase tracking-widest text-sm mb-4 italic">Tactical</h3>
+                <div class="text-4xl font-black mb-6">Rp 149k<span class="text-sm text-slate-600">/mo</span></div>
+                <ul class="text-slate-400 text-left space-y-3 mb-10">
+                    <li class="lang-text" data-en="• Advanced Poisoning" data-id="• Pengracunan Lanjutan">• Advanced
+                        Poisoning</li>
+                    <li class="lang-text" data-en="• Zero-Day Protection" data-id="• Proteksi Zero-Day">• Zero-Day
+                        Protection</li>
+                    <li class="lang-text" data-en="• Behavioral Analysis" data-id="• Analisis Perilaku">• Behavioral
+                        Analysis</li>
+                </ul>
+                <button onclick="openPaymentModal('tactical')"
+                    class="lang-text w-full bg-violet-600 py-3 font-bold hover:bg-violet-500 transition"
+                    data-en="ACQUIRE LICENSE" data-id="AMBIL LISENSI">ACQUIRE LICENSE</button>
+            </div>
+            <div
+                class="bg-slate-950 border border-slate-800 p-8 rounded-lg hover:border-yellow-500/50 transition text-center">
+                <h3 class="text-yellow-600 font-bold uppercase tracking-widest text-sm mb-4 italic">Sovereign</h3>
+                <div class="text-4xl font-black mb-6">Rp 999k<span class="text-sm text-slate-600">/life</span></div>
+                <ul class="text-slate-400 text-left space-y-3 mb-10">
+                    <li class="lang-text" data-en="• Unlimited Deployment" data-id="• Pasang Tanpa Batas">• Unlimited
+                        Deployment</li>
+                    <li class="lang-text" data-en="• Priority Updates" data-id="• Update Prioritas">• Priority Updates
+                    </li>
+                    <li class="lang-text" data-en="• Stealth Support" data-id="• Dukungan Prioritas">• Stealth Support
+                    </li>
+                </ul>
+                <button onclick="openPaymentModal('sovereign')"
+                    class="lang-text w-full border border-slate-700 py-3 font-bold hover:bg-yellow-500 hover:text-black transition"
+                    data-en="SECURE FOREVER" data-id="AMANKAN SELAMANYA">SECURE FOREVER</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-slate-950" id="intelligence">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-slate-500 font-bold uppercase tracking-[0.3em] text-xs mb-4 italic">// INTELLIGENCE CENTER
+            </h2>
+            <h3 class="lang-text text-4xl font-black mb-12" data-en="RECONNAISSANCE TOOL." data-id="ALAT PEMINDAIAN.">
+                RECONNAISSANCE TOOL.</h3>
+
+            <div
+                class="max-w-3xl mx-auto bg-slate-900/50 border border-slate-800 p-2 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2 mb-10 focus-within:border-violet-500/50 transition">
+                <input type="text" id="targetUrl"
+                    class="flex-1 bg-transparent px-6 py-4 outline-none text-white placeholder:text-slate-600 font-mono text-sm"
+                    placeholder="ENTER DOMAIN URL (e.g. https://mystore.com)">
+                <button
+                    class="lang-text bg-violet-600 hover:bg-violet-500 text-white font-black px-10 py-4 rounded-lg transition-all flex items-center justify-center gap-2"
+                    data-en="EXECUTE SCAN" data-id="EKSEKUSI SCAN" id="sub" onclick="startAudit()">
+                    EXECUTE SCAN
+                </button>
+            </div>
+
+            <div id="scanResult"
+                class="hidden max-w-4xl mx-auto text-left font-mono text-xs overflow-hidden rounded-lg border border-slate-800 shadow-2xl">
+                <div class="bg-slate-800 px-4 py-2 flex items-center justify-between">
+                    <div class="flex gap-1.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                    </div>
+                    <span class="text-slate-400 text-[10px] uppercase tracking-widest">Railway.app System Link</span>
+                </div>
+                <div class="bg-black/80 p-6 space-y-2 min-h-[200px]" id="terminalText"></div>
+            </div>
+            <p class="mt-8 text-slate-500 text-sm">Powered by <span
+                    class="text-violet-500 font-bold italic uppercase">Stealth Intelligence Engine</span></p>
+        </div>
+    </section>
+    <div id="paymentModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-md" onclick="closeModal()"></div>
+
+        <div class="relative bg-slate-900 border border-violet-500/30 w-full max-w-lg p-8 rounded-2xl shadow-2xl">
+            <div id="modalContent">
+                <div class="text-center">
+                    <h3 class="text-2xl font-black mb-2 uppercase tracking-tight">System Deployment</h3>
+                    <p id="modalDesc" class="text-slate-400 text-sm mb-6 italic">Configuration for Plan: <span
+                            id="displayPlanName" class="text-violet-500 font-bold"></span></p>
+
+                    <div class="space-y-4 text-left">
+                        <div>
+                            <label class="text-[10px] font-bold text-violet-400 uppercase tracking-widest">Target
+                                Domain</label>
+                            <input type="text" id="modalDomainInput" placeholder="https://yourwebsite.com"
+                                class="w-full bg-black border border-slate-800 p-4 rounded-xl text-white font-mono mt-1 focus:border-violet-500 outline-none transition-all">
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] font-bold text-violet-400 uppercase tracking-widest">Notification
+                                Email (Optional)</label>
+                            <input type="email" id="modalEmailInput" placeholder="operator@stealth.io"
+                                class="w-full bg-black border border-slate-800 p-4 rounded-xl text-white font-mono mt-1 focus:border-violet-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <button id="modalActionBtn"
+                            class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg uppercase tracking-widest text-sm">
+                            Initialize Deployment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="successArea" class="hidden text-center">
+                <div
+                    class="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">DEPLOYMENT READY</h3>
+                <p class="text-slate-400 text-sm mb-6">Copy and paste this script before the closing &lt;/head&gt; tag.
+                </p>
+
+                <div class="bg-black p-4 rounded-lg border border-slate-800 mb-6">
+                    <code id="resultScript" class="text-violet-400 text-xs break-all"></code>
+                </div>
+
+                <button onclick="closeModal()"
+                    class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl font-bold transition">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="finalModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-xl"></div>
+        <div
+            class="relative bg-slate-900 border-2 border-green-500/30 w-full max-w-xl p-10 rounded-3xl shadow-[0_0_50px_rgba(34,197,94,0.2)] text-center">
+            <div
+                class="w-20 h-20 bg-green-500 text-slate-950 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(34,197,94,0.5)]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+
+            <h3 class="text-3xl font-black mb-2 uppercase tracking-tighter">Activation Successful</h3>
+            <p class="text-slate-400 mb-8">Your domain is now under <span class="text-violet-400 font-bold">Stealth
+                    Protection</span>. Copy the deployment script below.</p>
+
+            <div class="group relative">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-green-500 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000">
+                </div>
+                <div class="relative bg-black p-6 rounded-lg border border-slate-800 text-left">
+                    <pre
+                        class="overflow-x-auto"><code id="scriptResult" class="text-green-400 text-sm font-mono break-all"></code></pre>
+                </div>
+            </div>
+
+            <div class="mt-8 flex gap-4">
+                <button onclick="copyScript()"
+                    class="flex-1 bg-violet-600 hover:bg-violet-500 text-white font-bold py-4 rounded-xl transition-all uppercase tracking-widest text-xs">
+                    Copy Script
+                </button>
+                <button onclick="closeFinalModal()"
+                    class="flex-1 bg-slate-800 hover:bg-slate-700 text-white py-4 rounded-xl font-bold transition uppercase tracking-widest text-xs">
+                    Finish
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Language System
+        let currLanguage = 'en';
+        function langToggle() {
+            currLanguage = currLanguage === 'en' ? 'id' : 'en';
+            document.getElementById('langBtn').innerText = currLanguage === 'en' ? 'ID' : 'EN';
+
+            document.querySelectorAll('.lang-text').forEach(el => {
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.innerText = el.getAttribute(`data-${currLanguage}`);
+                    el.style.opacity = 1;
+                }, 200);
+            });
+        }
+
+        function clean_url(url) {
+            try {
+                let urlInput = url.trim();
+
+                // Pastikan ada protokol agar objek URL() tidak error
+                if (!urlInput.startsWith("http://") && !urlInput.startsWith("https://")) {
+                    urlInput = "https://" + urlInput;
+                }
+
+                const parsedUrl = new URL(urlInput);
+                let hostname = parsedUrl.hostname;
+
+                // Hapus 'www.' jika ada
+                hostname = hostname.replace(/^www\./, '');
+
+                return hostname;
+            } catch (err) {
+                // Jika gagal total, coba hapus manual karakter umum
+                return url.replace(/https?:\/\//, '').split('/')[0].replace('www.', '');
+            }
+        }
+        let currentPlan = '';
+
+        function openPaymentModal(plan) {
+            currentPlan = plan;
+            const modal = document.getElementById('paymentModal');
+            const modalActionBtn = document.getElementById('modalActionBtn');
+            const displayPlan = document.getElementById('displayPlanName');
+
+            // Reset modal state
+            document.getElementById('modalContent').classList.remove('hidden');
+            document.getElementById('successArea').classList.add('hidden');
+            document.getElementById('modalDomainInput').value = '';
+
+            displayPlan.innerText = plan.toUpperCase();
+
+            // Jika user sebelumnya sudah mengisi URL di section intelligence, kita bantu pre-fill (opsional)
+            const intelUrl = document.getElementById('targetUrl').value;
+            if (intelUrl) {
+                document.getElementById('modalDomainInput').value = intelUrl;
+            }
+
+            // Set logic tombol berdasarkan paket
+            if (plan === 'free') {
+                modalActionBtn.innerText = "GENERATE 24H KEY";
+                modalActionBtn.onclick = function () { handleFreeActivation(); }; // Dibungkus fungsi anonim
+            } else {
+                modalActionBtn.innerText = `PROCEED TO SECURE PAYMENT`;
+                // PERBAIKAN DI SINI: Dibungkus dalam function() agar tidak langsung jalan
+                modalActionBtn.onclick = function () { handlePaidActivation(plan); };
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // LOGIKA UNTUK PAKET GRATIS
+        function handleFreeActivation() {
+            const domainInput = document.getElementById('modalDomainInput');
+            // Bersihkan domain (hapus http:// dst)
+            const domain = clean_url(domainInput.value);
+
+            if (!domain || domain.length < 3) {
+                domainInput.classList.add('border-red-500');
+                return;
+            }
+
+            // Tampilkan area sukses dan script secara instan
+            document.getElementById('modalContent').classList.add('hidden');
+            document.getElementById('successArea').classList.remove('hidden');
+
+            // Tampilkan tag script yang benar (mengarah ke loader.js)
+            const scriptUrl = `${window.location.origin}/loader.js?domain=${domain}`;
+            document.getElementById('resultScript').innerText =
+                `<script src="${scriptUrl}"><\/script>`;
+        }
+
+        // LOGIKA UNTUK PAKET BAYAR
+        // LOGIKA UNTUK PAKET BAYAR
+        async function handlePaidActivation(planvalue) {
+            const domainInput = document.getElementById('modalDomainInput');
+            const domain = clean_url(domainInput.value);
+            const email = document.getElementById('modalEmailInput').value.trim();
+
+            if (!domain || domain.length < 3) {
+                domainInput.classList.add('border-red-500');
+                alert("Domain is required for deployment.");
+                return;
+            }
+
+            // Simpan domain di browser sebentar untuk modal sukses nanti
+            localStorage.setItem('pending_domain', domain);
+
+            // URL Produk Lemon Squeezy Anda
+            const checkoutUrl = `https://stealth-anti-scrapper.lemonsqueezy.com/checkout/buy/61c5c8a9-76ba-4639-9bc7-fa1189ce6543`;
+
+            // GUNAKAN URLSearchParams: Ini secara otomatis meng-encode [ ] dan karakter khusus lainnya
+            const params = new URLSearchParams();
+            params.set('checkout[custom][domain]', domain);
+            params.set('checkout[custom][plan]', planvalue);
+
+            if (email) {
+                params.set('checkout[email]', email);
+            }
+
+            // Menambahkan success_url agar kembali ke landing page Anda
+            params.set('checkout[success_url]', `${window.location.origin}/?success=1`);
+
+            // Gabungkan URL dengan parameter yang sudah aman (encoded)
+            const finalUrl = `${checkoutUrl}?${params.toString()}`;
+
+            // Debugging: Lihat di console jika masih ada masalah
+            console.log("Redirecting to Lemon Squeezy:", finalUrl);
+
+            // Eksekusi redirect
+            window.location.href = finalUrl;
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.get('success') === '1') {
+                const domain = localStorage.getItem('pending_domain'); // Ambil domain yang tadi disimpan
+                console.log('success');
+                // Tampilkan modal sukses
+                showSuccessModal(domain);
+            }
+        }
+
+        function showSuccessModal(domain) {
+            const scriptCode = `<script src="${window.location.origin}/loader.js?domain=${domain}"><\/script>`;
+
+            // Masukkan ke elemen UI Anda
+            document.getElementById('scriptResult').innerText = scriptCode;
+            document.getElementById('finalModal').style.display = 'block';
+
+            // Bersihkan URL agar tidak refresh terus-terusan muncul modal
+            window.history.replaceState({}, document.title, "/");
+        }
+        (function () {
+            const terminal = document.getElementById('terminalText');
+            const scanResultDiv = document.getElementById('scanResult');
+
+            async function _0x5f21() {
+                const urlInput = document.getElementById('targetUrl').value;
+                if (!urlInput) return;
+
+                // Reset & Show Terminal
+                scanResultDiv.classList.remove('hidden');
+                terminal.innerHTML = `<p class="text-violet-400 font-bold">[SYSTEM] INITIATING RECONNAISSANCE ON: ${urlInput}</p>`;
+
+                // Obfuscation Logic
+                const _0x2 = "XyZ12";
+                const _0x3 = "99AB";
+                const _0x4 = btoa(urlInput);
+                const _0x5 = _0x2 + _0x4 + _0x3;
+
+                try {
+                    // Typing effect simulation
+                    terminal.innerHTML += `<p class="text-slate-500">Connecting to global proxy nodes...</p>`;
+
+                    const response = await fetch('/x92j-scan', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify({ 'payload': _0x5 })
+                    });
+
+                    const data = await response.json();
+                    console.log(data);
+                    // Render Result Card in Terminal Style
+                    renderResult(data);
+
+                } catch (err) {
+                    terminal.innerHTML += `<p class="text-red-500 font-bold">[CRITICAL_ERROR] CONNECTION INTERRUPTED: 0x1A4</p>`;
+                }
+            }
+
+            function renderResult(data) {
+                if (data.is_protected) {
+                    terminal.innerHTML += `
+        <div class="p-4 border border-green-500/30 bg-green-500/5 rounded">
+            <p class="text-green-400 font-bold text-lg">🛡️ SHIELD DETECTED</p>
+            <p class="text-slate-300 mt-1">Status: <span class="text-white">${data.details}</span></p>
+            
+            <div class="mt-4 grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-slate-500">
+                <div class="p-2 bg-slate-900 rounded">
+                    WAF: <span class="${data.tech_stack.waf !== 'None' ? 'text-green-400' : 'text-slate-400'}">
+                        ${data.tech_stack.waf}
+                    </span>
+                </div>
+                <div class="p-2 bg-slate-900 rounded">
+                    Poisoning: <span class="text-green-400">${data.tech_stack.poisoning_level}</span>
+                </div>
+            </div>
+
+            <div class="mt-4 flex items-center gap-2">
+                <div class="h-1 flex-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-green-500" style="width: ${data.score}%"></div>
+                </div>
+                <span class="text-green-500 font-mono text-xs">${data.score}/100</span>
+            </div>
+            
+            <p class="text-[10px] text-green-600/50 mt-2 italic">Result: AI Scrapers will face high data dilution.</p>
+        </div>
+    `;
+                } else {
+                    terminal.innerHTML += `
+        <div class="p-4 border border-red-500/30 bg-red-500/5 rounded">
+            <p class="text-red-400 font-bold text-lg">⚠️ VULNERABLE</p>
+            <p class="text-slate-400 mt-1">${data.details}</p>
+            <p class="text-red-500 mt-4 animate-pulse text-xs font-bold">CRITICAL: Data is exposed to crawlers.</p>
+            <button onclick="window.location.href='#pricing'" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded text-[10px] font-bold uppercase transition">
+                Deploy Stealth Shield
+            </button>
+        </div>`;
+                }
+            }
+
+            // Bind to Global
+            window.startAudit = _0x5f21;
+
+            // Listeners
+            document.addEventListener('DOMContentLoaded', () => {
+                const subBtn = document.getElementById('sub');
+                const inputField = document.getElementById('targetUrl');
+
+                if (subBtn) subBtn.onclick = _0x5f21;
+                if (inputField) {
+                    inputField.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') _0x5f21();
+                    });
+                }
+            });
+        })();
+
+        // Ganti fungsi showSuccessModal Anda dengan ini agar menggunakan class Tailwind 'hidden/flex'
+        function showSuccessModal(domain) {
+            if (!domain) return;
+
+            const scriptCode = `<script src="${window.location.origin}/loader.js?domain=${domain}"><\/script>`;
+
+            // Masukkan ke elemen UI
+            const resultEl = document.getElementById('scriptResult');
+            if (resultEl) resultEl.innerText = scriptCode;
+
+            // Tampilkan modal (Gunakan flex karena hidden menghapus display)
+            const modal = document.getElementById('finalModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Bersihkan URL agar rapi
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Fungsi tambahan untuk tombol di modal baru
+        function copyScript() {
+            const text = document.getElementById('scriptResult').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Script copied to clipboard!");
+            });
+        }
+
+        function closeFinalModal() {
+            const modal = document.getElementById('finalModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+
+</html>
