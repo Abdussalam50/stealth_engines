@@ -11,7 +11,15 @@ import uuid
 def run_migration():
     print("[*] Starting Security Migration...")
     
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, 
+    connect_args={
+        "ssl_mode": "require",
+        "server_settings":{
+            "search_path":"public"
+        },
+        "pool_pre_ping": True,
+        "pool_recycle": 3600,
+        "check_same_thread": False})
     
     try:
         # Create new tables
