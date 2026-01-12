@@ -35,9 +35,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 app = FastAPI(title="Stealth Engine API")
 
 # --- 2. MIDDLEWARE CONFIGURATION ---
-app.add_middleware(RateLimitMiddleware) 
-app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(RateLimitMiddleware) 
 
 @app.middleware("http")
 async def definitive_cors_handler(request: Request, call_next):
