@@ -38,7 +38,13 @@ app = FastAPI(title="Stealth Engine API")
 app.add_middleware(RateLimitMiddleware) # Rate limiting should usually be early in the stack
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(DynamicCORSMiddleware)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Mengizinkan semua domain (termasuk Railway)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 templates = Jinja2Templates(directory="app/templates")
 
 # --- 3. STARTUP CHECK ---
