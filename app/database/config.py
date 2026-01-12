@@ -10,12 +10,18 @@ if DATABASE_URL:
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
-    # Tambahkan pool_pre_ping=True
+    # Configure for PostgreSQL with proper SSL handling
+    connect_args = {}
+    if "postgresql" in DATABASE_URL:
+        # Railway PostgreSQL requires SSL
+        connect_args = {"sslmode": "require"}
+    
     engine = create_engine(
         DATABASE_URL, 
         pool_pre_ping=True, 
         pool_recycle=3600,
-        connect_args={"sslmode": "require"} if "postgresql" in DATABASE_URL else {}
+        connect_args=connect_args,
+        echo=True  # Enable SQL logging for debugging
     )
 else:
     engine = create_engine("sqlite:///./stealth.db", connect_args={"check_same_thread": False})

@@ -4,6 +4,10 @@ import uuid
 import base64
 import secrets
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+# Load environment variables FIRST before any database imports
+load_dotenv()
 
 # --- 1. WINDOWS ASYNCIO FIX (Wajib Paling Atas) ---
 # if sys.platform == 'win32':

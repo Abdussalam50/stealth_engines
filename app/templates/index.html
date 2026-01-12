@@ -415,7 +415,7 @@
             document.getElementById('successArea').classList.remove('hidden');
 
             // Tampilkan tag script yang benar (mengarah ke loader.js)
-            const scriptUrl = `${window.location.origin}/loader.js?domain=${domain}`;
+            const scriptUrl = `https://stealthengines-production.up.railway.app/loader.js?domain=${domain}`;
             document.getElementById('resultScript').innerText =
                 `<script src="${scriptUrl}"><\/script>`;
         }

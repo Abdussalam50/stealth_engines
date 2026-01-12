@@ -12,7 +12,7 @@ class Client(Base):
     status=Column(String,default="expired")
     plan = Column(String, default="free")
     created_at=Column(DateTime,default=datetime.utcnow)
-    updated_at=Column(DateTime)
+    updated_at=Column(DateTime,default=datetime.utcnow,onupdate=datetime.utcnow)
 
 class Admin(Base):
     __tablename__="admin"
