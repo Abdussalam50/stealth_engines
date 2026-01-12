@@ -37,15 +37,21 @@ app = FastAPI(title="Stealth Engine API")
 # Custom security middleware
 
 #app.add_middleware(DynamicCORSMiddleware)
+app.add_middleware(RateLimitMiddleware) # Rate limiting should be close to the app
+app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://stealth-engines.netlify.app"], # Mengizinkan semua domain (termasuk Railway)
+    allow_origins=[
+        "https://stealth-engines.netlify.app",
+        "https://stealth-engines.netlify.app/",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["Content-Type", "Authorization", "X-Requested-With", "ngrok-skip-browser-warning"],
+    allow_headers=["*"],
 )
-app.add_middleware(RateLimitMiddleware) # Rate limiting should usually be early in the stack
-app.add_middleware(SecurityHeadersMiddleware)
 templates = Jinja2Templates(directory="app/templates")
 
 # --- 3. STARTUP CHECK ---
