@@ -42,7 +42,7 @@ app.add_middleware(
     allow_origins=["https://stealth-engines.netlify.app"], # Mengizinkan semua domain (termasuk Railway)
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With", "ngrok-skip-browser-warning"],
 )
 app.add_middleware(RateLimitMiddleware) # Rate limiting should usually be early in the stack
 app.add_middleware(SecurityHeadersMiddleware)

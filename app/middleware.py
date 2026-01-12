@@ -113,6 +113,9 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         }
 
     async def dispatch(self, request: Request, call_next):
+        if request.method == "OPTIONS":
+            return await call_next(request)
+            
         origin = request.headers.get("origin")
         print(f"DEBUG: Request masuk dari {origin} ke {request.url.path}")
         path = request.url.path
