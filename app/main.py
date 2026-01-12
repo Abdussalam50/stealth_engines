@@ -30,6 +30,21 @@ from .routers import admin_domains
 from .dependencies import get_current_admin_with_redirect, get_current_admin
 from .middleware import DynamicCORSMiddleware, SecurityHeadersMiddleware, RateLimitMiddleware
 from .utils.sanitizer import sanitize_text, sanitize_html
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class CORSPreflightMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        if request.method == "OPTIONS":
+            return Response(
+                status_code=200,
+                headers={
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Max-Age": "86400",
+                }
+            )
+        return await call_next(request)
 
 app = FastAPI(title="Stealth Engine API")
 
@@ -38,26 +53,12 @@ app = FastAPI(title="Stealth Engine API")
 
 app.add_middleware(RateLimitMiddleware) 
 app.add_middleware(SecurityHeadersMiddleware)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSPreflightMiddleware) 
+
 templates = Jinja2Templates(directory="app/templates")
 
-# --- 2.1 MANUAL OPTIONS HANDLER (Emergency CORS Fix) ---
-@app.options("/x92j-scan")
-async def options_secure_audit():
-    return Response(
-        status_code=200,
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-        }
-    )
+# Manual options handler removed in favor of CORSPreflightMiddleware
 
 
 # --- 3. STARTUP CHECK ---
@@ -71,12 +72,12 @@ async def startup_event():
 Base.metadata.create_all(bind=engine)
 @app.get("/", response_class=FileResponse)
 async def serve_index():
-    # Serve index.html from root with security headers
-    base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    file_path = os.path.join(base_path, "index.html")
+    # Serve index.html from app/templates with security headers
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_path, "templates", "index.html")
     if os.path.exists(file_path):
         return FileResponse(file_path)
-    return HTMLResponse(content="<h1>index.html not found</h1>", status_code=404)
+    return HTMLResponse(content=f"<h1>index.html not found at {file_path}</h1>", status_code=404)
 
 class AuditRequest(BaseModel):
     payload: str
