@@ -32,29 +32,28 @@ from .middleware import DynamicCORSMiddleware, SecurityHeadersMiddleware, RateLi
 from .utils.sanitizer import sanitize_text, sanitize_html
 from starlette.middleware.base import BaseHTTPMiddleware
 
-class CORSPreflightMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        if request.method == "OPTIONS":
-            return Response(
-                status_code=200,
-                headers={
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                    "Access-Control-Allow-Headers": "*",
-                    "Access-Control-Max-Age": "86400",
-                }
-            )
-        return await call_next(request)
-
 app = FastAPI(title="Stealth Engine API")
 
 # --- 2. MIDDLEWARE CONFIGURATION ---
-# Custom security middleware
-
 app.add_middleware(RateLimitMiddleware) 
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-app.add_middleware(CORSPreflightMiddleware) 
+
+@app.middleware("http")
+async def definitive_cors_handler(request: Request, call_next):
+    # This middleware is Added LAST, so it executes FIRST (outermost)
+    if request.method == "OPTIONS":
+        return Response(
+            status_code=200,
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Max-Age": "86400",
+                "X-Stealth-Mode": "Nuclear-CORS-Active"
+            }
+        )
+    return await call_next(request)
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -72,12 +71,16 @@ async def startup_event():
 Base.metadata.create_all(bind=engine)
 @app.get("/", response_class=FileResponse)
 async def serve_index():
-    # Serve index.html from app/templates with security headers
-    base_path = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(base_path, "templates", "index.html")
-    if os.path.exists(file_path):
-        return FileResponse(file_path)
-    return HTMLResponse(content=f"<h1>index.html not found at {file_path}</h1>", status_code=404)
+    # Primary landing page path in production
+    paths = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates", "index.html"),
+        os.path.join(os.getcwd(), "index.html"),
+        "/app/index.html"
+    ]
+    for p in paths:
+        if os.path.exists(p):
+            return FileResponse(p)
+    return HTMLResponse(content=f"<h1>System Offline</h1><p>Components not found. Checked: {paths}</p>", status_code=404)
 
 class AuditRequest(BaseModel):
     payload: str
