@@ -20,6 +20,9 @@ class DynamicCORSMiddleware(BaseHTTPMiddleware):
     Returns 403 Forbidden for untrusted origins.
     """
     async def dispatch(self, request: Request, call_next):
+        if request.method == "OPTIONS":
+            return await call_next(request)
+        
         origin = request.headers.get("Origin") or request.headers.get("origin")
         
         if not origin:
