@@ -80,13 +80,13 @@ async def secure_audit(data: AuditRequest, db: Session = Depends(get_db)):
         sanitized_url = sanitize_text(target_url)
 
         # check Auditor Service (Remote HF or Local)
-        service_url = "https://cadels-anti-scraping.hf.space"
+        service_url = "https://cadels-anti-scraping.hf.space/audit"
         if service_url:
             print(f"DEBUG: Redirecting audit to remote service: {service_url}")
             async with httpx.AsyncClient() as client:
                 try:
                     hf_res = await client.post(
-                        f"{service_url.rstrip('/')}/audit",
+                        "https://cadels-anti-scraping.hf.space/audit",
                         json={"url": target_url},
                         timeout=60.0
                     )
