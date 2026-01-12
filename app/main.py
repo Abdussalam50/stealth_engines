@@ -36,23 +36,29 @@ app = FastAPI(title="Stealth Engine API")
 # --- 2. MIDDLEWARE CONFIGURATION ---
 # Custom security middleware
 
-#app.add_middleware(DynamicCORSMiddleware)
-app.add_middleware(RateLimitMiddleware) # Rate limiting should be close to the app
+app.add_middleware(RateLimitMiddleware) 
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://stealth-engines.netlify.app",
-        "https://stealth-engines.netlify.app/",
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:8000"
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 templates = Jinja2Templates(directory="app/templates")
+
+# --- 2.1 MANUAL OPTIONS HANDLER (Emergency CORS Fix) ---
+@app.options("/x92j-scan")
+async def options_secure_audit():
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
+
 
 # --- 3. STARTUP CHECK ---
 @app.on_event("startup")
