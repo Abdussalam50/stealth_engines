@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 from fastapi import FastAPI, Request, Form, Response, Query, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
@@ -47,13 +47,34 @@ async def definitive_cors_handler(request: Request, call_next):
             status_code=200,
             headers={
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                "Access-Control-Allow-Methods": "*",
                 "Access-Control-Allow-Headers": "*",
                 "Access-Control-Max-Age": "86400",
                 "X-Stealth-Mode": "Nuclear-CORS-Active"
             }
         )
-    return await call_next(request)
+    
+    try:
+        response = await call_next(request)
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "Internal Server Error during middleware", "error": str(e)},
+            headers={"Access-Control-Allow-Origin": "*"}
+        )
+        
+    # Add debug header to EVERY response to verify deployment
+    response.headers["X-Deployment-ID"] = "STEALTH-2026-01-12-09-58"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.get("/health-check")
+async def health_check():
+    return {
+        "status": "online",
+        "deployment": "STEALTH-2026-01-12-09-58",
+        "env": os.environ.get("RAILWAY_ENVIRONMENT_NAME", "unknown")
+    }
 
 templates = Jinja2Templates(directory="app/templates")
 
