@@ -437,7 +437,10 @@
             localStorage.setItem('pending_domain', domain);
 
             // URL Produk Lemon Squeezy Anda
-            const checkoutUrl = {'tactical':`https://stealth-anti-scrapper.lemonsqueezy.com/checkout/buy/61c5c8a9-76ba-4639-9bc7-fa1189ce6543`, 'sovereign':`https://stealth-anti-scrapper.lemonsqueezy.com/checkout/buy/61c5c8a9-76ba-4639-9bc7-fa1189ce6543`};
+            const checkoutUrl = {
+                'tactical':`https://stealth-anti-scrapper.lemonsqueezy.com/checkout/buy/61c5c8a9-76ba-4639-9bc7-fa1189ce6543`, 
+                'sovereign':`https://stealth-anti-scrapper.lemonsqueezy.com/checkout/buy/61c5c8a9-76ba-4639-9bc7-fa1189ce6543`
+            };
 
             // GUNAKAN URLSearchParams: Ini secara otomatis meng-encode [ ] dan karakter khusus lainnya
             const params = new URLSearchParams();
@@ -452,7 +455,7 @@
             params.set('checkout[success_url]', `${window.location.origin}/?success=1`);
 
             // Gabungkan URL dengan parameter yang sudah aman (encoded)
-            const finalUrl = `${checkoutUrl.planvalue}?${params.toString()}`;
+            const finalUrl = `${checkoutUrl[planvalue]}?${params.toString()}`;
 
             // Debugging: Lihat di console jika masih ada masalah
             console.log("Redirecting to Lemon Squeezy:", finalUrl);

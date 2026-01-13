@@ -35,6 +35,7 @@ from .dependencies import get_current_admin_with_redirect, get_current_admin
 from .middleware import DynamicCORSMiddleware, SecurityHeadersMiddleware, RateLimitMiddleware
 from .utils.sanitizer import sanitize_text, sanitize_html
 from starlette.middleware.base import BaseHTTPMiddleware
+from urllib.parse import urlparse
 
 app = FastAPI(title="Stealth Engine API")
 
@@ -167,6 +168,9 @@ async def stealth_engine(request: Request, domain: str = Query(None), db: Sessio
  
     if not referer:
         return Response(content="console.error('Stealth: Invalid request');", media_type="application/javascript")
+    parsed_referer=urlparse(referer).netloc
+    if parsed_referer != domain:
+        return Response(content="console.error('Stealth: Domain mismatch / Unauthorized use');", media_type="application/javascript")
     if not domain:
         return Response(content="console.error('Stealth: Domain missing');", media_type="application/javascript")
 
@@ -192,7 +196,7 @@ async def stealth_engine(request: Request, domain: str = Query(None), db: Sessio
 
     # Logika Expiry Paket
     if client.plan == "free":
-        if now > (client.created_at + timedelta(days=1)):
+        if now > (client.created_at + timedelta(days=5)):
             return Response(content="console.warn('Stealth: Free Trial Expired. Upgrade to Tactical.');", media_type="application/javascript")
     elif client.plan == "tactical":
         if now > (client.updated_at + timedelta(days=30)):
