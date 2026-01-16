@@ -176,12 +176,12 @@ async def stealth_engine(request: Request, domain: str = Query(None), db: Sessio
     if not domain:
         return Response(content="console.error('Stealth: Domain missing');", media_type="application/javascript")
 
-    client = db.query(Client).filter(Client.domain_name == domain).first()
+    client = db.query(Client).filter(Client.domain_name == clean_domain).first()
     
     # Auto-register jika domain belum terdaftar (Free Trial)
     if not client:
         # Sanitize domain name
-        s_domain = sanitize_text(domain)
+        s_domain = sanitize_text(clean_domain)
         client = Client(
             id=str(uuid.uuid4()),
             client_name=f"Trial_{s_domain}",
