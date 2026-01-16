@@ -169,8 +169,8 @@ async def stealth_engine(request: Request, domain: str = Query(None), db: Sessio
     if not referer:
         return Response(content="console.error('Stealth: Invalid request');", media_type="application/javascript")
     parsed_referer=urlparse(referer).netloc.lower()
-    clean_domain=domain.lower().replace("www","")
-    clean_referer=parsed_referer.replace("www","")
+    clean_domain=domain.lower().replace("www.","")
+    clean_referer=parsed_referer.replace("www.","")
     if clean_referer != clean_domain:
         return Response(content="console.error('Stealth: Domain mismatch / Unauthorized use');", media_type="application/javascript")
     if not domain:
