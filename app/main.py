@@ -108,6 +108,48 @@ async def serve_index():
             return FileResponse(p)
     return HTMLResponse(content=f"<h1>System Offline</h1><p>Components not found. Checked: {paths}</p>", status_code=404)
 
+class FreeRegistrationRequest(BaseModel):
+    domain: str
+
+@app.post("/register-free")
+async def register_free(data: FreeRegistrationRequest, db: Session = Depends(get_db)):
+    clean_domain = data.domain.lower().replace("www.", "")
+    s_domain = sanitize_text(clean_domain)
+    
+    client = db.query(Client).filter(Client.domain_name == s_domain).first()
+    
+    if client:
+        # Check for downgrade attempt
+        # Hierarchy: Free(0) < Recon(0) < Tactical(1) < Sovereign(2)
+        # If current plan is Tactical or Sovereign, and Active -> BLOCK
+        if client.plan in ["tactical", "sovereign"] and client.status == "active":
+             return JSONResponse(
+                status_code=403, 
+                content={"detail": "SECURITY_ALERT: Domain is protected by a higher level tier. Downgrade prohibited."}
+            )
+        
+        # If expired or already free/recon, allow re-activation
+        if client.plan != "recon":
+            client.plan = "recon"
+            client.status = "active"
+            client.updated_at = datetime.utcnow()
+            db.commit()
+            
+        return {"status": "success", "message": "Activated"}
+
+    # New Client
+    new_client = Client(
+        id=str(uuid.uuid4()),
+        client_name=f"Free_{s_domain}", 
+        domain_name=s_domain,
+        api_key=str(uuid.uuid4()),
+        plan="recon",
+        status="active"
+    )
+    db.add(new_client)
+    db.commit()
+    return {"status": "success", "message": "Registered"}
+
 class AuditRequest(BaseModel):
     payload: str
 
