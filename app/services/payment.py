@@ -43,8 +43,34 @@ async def lemonsqueezy_webhook(request: Request, db: Session = Depends(get_db)):
             # Cari dan aktifkan di database
             client = db.query(Client).filter(Client.domain_name == clean_domain).first()
             
+            # Anti-Downgrade Protection logic
+            PLAN_HIERARCHY = {
+                "recon": 0, # User confirmed Recon IS the free package
+                "tactical": 1,
+                "sovereign": 2
+            }
+
             if client:
                 print(f"DEBUG: Updating existing client: {client.id}")
+                
+                # Check Hierarchy
+                current_app_plan = client.plan.lower() if client.plan else "recon"
+                new_app_plan = plan.lower() if plan else "recon"
+                
+                current_rank = PLAN_HIERARCHY.get(current_app_plan, 0)
+                new_rank = PLAN_HIERARCHY.get(new_app_plan, 0)
+                
+                # Allow update only if:
+                # 1. Upgrade (new > current)
+                # 2. Same tier renewal (new == current)
+                # 3. Current plan is NOT active (expired/revoked) - user trying to resubscribe at lower tier
+                # 4. Force override if needed (not implemented here for safety)
+                
+                if new_rank < current_rank and client.status == "active":
+                    msg = f"SECURITY ALERT: Blocked attempt to downgrade {clean_domain} from {current_app_plan} to {new_app_plan}"
+                    print(msg)
+                    return {"status": "ignored", "message": msg}
+
                 client.plan = plan
                 client.status = "active"
                 client.updated_at = datetime.utcnow()
@@ -52,7 +78,7 @@ async def lemonsqueezy_webhook(request: Request, db: Session = Depends(get_db)):
                 try:
                     db.commit()
                     db.refresh(client)
-                    print(f"SUCCESS: DOMAIN {domain} ACTIVATED VIA LEMON SQUEEZY - Client ID: {client.id}")
+                    print(f"SUCCESS: DOMAIN {domain} UPDATED VIA LEMON SQUEEZY - Client ID: {client.id}")
                 except Exception as db_error:
                     db.rollback()
                     print(f"ERROR: Failed to update client in database: {str(db_error)}")
